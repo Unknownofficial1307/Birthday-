@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday msg💌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+    --color-env: #FFB7C5;
+    --color-env2: #ff9aad;
+    --color-flap: #ff8da1;
+    --color-bg: #ed7fca;
+    --color-heart: #ff85a2;
+    --color-sparkle: #fff;
+    --wax-red: #c04040;
+}
+
+body {
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    cursor: auto;
+}
+
+.envlope-wrapper {
+    height: 380px;
+    margin-top: 50px;
+    animation: float 3s ease-in-out infinite;
+}
+
+#envelope {
+    position: relative;
+    width: 380px;
+    height: 240px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    margin: 0 auto;
+    top: 150px;
+    background-color: var(--color-flap);
+    box-shadow: 0 4px 20px rgba(0,0,0,.1);
+    cursor: pointer;
+}
+
+.front {
+    position: absolute;
+    width: 0;
+    height: 0;
+    z-index: 3;
+}
+
+.flap {
+    border-left: 190px solid transparent;
+    border-right: 190px solid transparent;
+    border-bottom: 92px solid transparent;
+    border-top: 150px solid var(--color-flap);
+    transform-origin: top;
+    pointer-events: none;
+}
+
+.pocket {
+    border-left: 190px solid var(--color-env);
+    border-right: 190px solid var(--color-env);
+    border-bottom: 90px solid var(--color-env2);
+    border-top: 150px solid transparent;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.letter {
+    position: relative;
+    background-color: #e0d9dd;
+    width: 95%;
+    margin: 0 auto;
+    height: 95%;
+    top: 0%;
+    border-radius: 6px;
+    box-shadow: 0 2px 26px rgba(0,0,0,.08);
+    padding: 15px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.letter:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: linear-gradient(180deg, 
+        rgba(255,255,255,0.00) 25%, 
+        rgba(255,231,236,0.70) 55%, 
+        rgba(255,231,236,1.00) 100%);
+    pointer-events: none;
+}
+
+.message {
+    position: relative;
+    z-index: 2;
+    font-family: 'Pacifico', cursive;
+    color: #d46a84;
+    text-align: center;
+    line-height: 1.4;
+    padding: 5px;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.message p {
+    margin: 10px 0;
+    font-size: 1.4em;
+    text-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.lyrics {
+    display: none;
+    font-size: 1em;
+    line-height: 1.5;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1s ease-in;
+    max-height: 130px;
+    overflow-y: auto;
+}
+
+.lyric-page {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.lyric-page.active {
+    display: block;
+    opacity: 1;
+}
+
+.open .flap {
+    transform: rotateX(180deg);
+    transition: transform 0.4s ease, z-index 0.6s;
+    z-index: 1;
+}
+
+.close .flap {
+    transform: rotateX(0deg);
+    transition: transform 0.4s 0.6s ease, z-index 1s;
+    z-index: 5;
+}
+
+.close .letter {
+    transform: translateY(0px); 
+    transition: transform 0.4s ease, z-index 1s;
+    z-index: 1;
+}
+
+.open .letter {
+    transform: translateY(-60px) rotate(-2deg);
+    transition: transform 0.4s 0.6s ease, z-index 0.6s;
+    z-index: 2;
+}
+
+.letter-corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffd1dc;
+    border-radius: 5px;
+    z-index: 3;
+}
+
+.corner-tl { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+.corner-br { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+
+.hearts, .sparkles {
+    position: absolute;
+    top: 90px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+
+.heart, .sparkle {
+    position: absolute;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.heart:before,
+.heart:after {
+    content: "";
+    position: absolute;
+    left: 25px;
+    top: 0;
+    width: 25px;
+    height: 40px;
+    background: var(--color-heart);
+    border-radius: 25px 25px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+.heart:after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}
+
+.sparkle {
+    width: 8px;
+    height: 8px;
+    background: var(--color-sparkle);
+    border-radius: 50%;
+    animation: sparkleTwinkle 1s infinite;
+}
+
+.close .heart,
+.close .sparkle {
+    opacity: 0;
+    animation: none;
+}
+
+.a1 { left: 20%; transform: scale(0.6); animation: slideUp 4s linear infinite, sideSway 2s ease-in-out infinite alternate; }
+.a2 { left: 55%; animation: slideUp 5s linear infinite, sideSway 4s ease-in-out infinite alternate; }
+.a3 { left: 10%; transform: scale(0.8); animation: slideUp 7s linear infinite, sideSway 2s ease-in-out infinite alternate; }
+
+.s1 { left: 30%; animation: sparkleUp 3s linear infinite; }
+.s2 { left: 60%; animation: sparkleUp 4s linear infinite; }
+.s3 { left: 45%; animation: sparkleUp 5s linear infinite; }
+
+@keyframes slideUp {
+    0% { top: 0; }
+    100% { top: -600px; }
+}
+
+@keyframes sideSway {
+    0% { margin-left: 0; }
+    50% { margin-left: 50px; }
+    100% { margin-left: 0; }
+}
+
+@keyframes sparkleUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-500px) rotate(360deg); opacity: 0; }
+}
+
+@keyframes sparkleTwinkle {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+}
+
+.controls {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.controls button {
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background-color: var(--color-env);
+    border: 2px solid var(--color-env2);
+    border-radius: 20px;
+    color: white;
+    padding: 12px 25px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    font-family: Arial, sans-serif;
+}
+
+.controls button:hover {
+    background-color: var(--color-env2);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 7px 25px rgba(0,0,0,0.2);
+}
+
+.open .lyrics {
+    display: block;
+    opacity: 1;
+}
+
+.page-indicator {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.8em;
+    color: #d46a84;
+    opacity: 0.7;
+}
+    </style>
+</head>
+<body>
+    <div class="envlope-wrapper">
+        <div id="envelope" class="close">
+            <div class="wax-seal"></div>
+            <div class="front flap"></div>
+            <div class="front pocket"></div>
+            <div class="letter">
+                <div class="letter-corner corner-tl"></div>
+                <div class="letter-corner corner-br"></div>
+                <div class="message">
+                    <div class="lyrics">
+                        <div class="lyric-page active" id="page1"><p>Respected 🫡Don Queen👑,...❤️ </p></div>
+                        <div class="lyric-page" id="page2"><p>Happy Birthday 🎂</p></div>
+                        <div class="lyric-page" id="page3"><p>Aaj ek special girl ka birthday hai 🥳.</p></div>
+                        <div class="lyric-page" id="page4"><p>Age +1, maturity still 0 😜</p></div>
+                        <div class="lyric-page" id="page5"><p>Cake ke liye booking chal rahi hai 🎂.</p></div>
+                        <div class="lyric-page" id="page6"><p>Aur main sabse bada slice pehle hi reserve kar chuka 😎</p></div>
+                        <div class="lyric-page" id="page7"><p>Birthday girl bolegi “party do” 🍕.</p></div>
+                        <div class="lyric-page" id="page8"><p>Arre madam, budget Insta reel tak hi limited hai 😅,</p></div>
+                        <div class="lyric-page" id="page9"><p>Har saal same dialogue — “main ab badi ho gayi” 🙄.</p></div>
+                        <div class="lyric-page" id="page10"><p>Reality: badi hoti ho, par samajh nursery class wali hi hai 🤭</p></div>
+                        <div class="lyric-page" id="page11"><p>18 ka matlab ab tum classic piece ban gayi ho 😂.</p></div>
+                        <div class="lyric-page" id="page12"><p>Thoda sa patience install kar lo, warna hang ho jaogi 🖥️</p></div>
+                        <div class="lyric-page" id="page13"><p>Photo-shoot ke liye 500 pose le logi 📸,</p></div>
+                        <div class="lyric-page" id="page14"><p>Aur end me best wali bhi cartoon lagti hai 😜.</p></div>
+                        <div class="lyric-page" id="page15"><p>Friends bole: “she’s an angel” 👼</p></div>
+                        <div class="lyric-page" id="page16"><p>Main bola: “haan, angel ho… lekin cartoon network wali” 🤣.</p></div>
+                        <div class="lyric-page" id="page17"><p>Birthday wish list Amazon se lambi hoti hai 📦,</p></div>
+                        <div class="lyric-page" id="page18"><p>Lekin gift mila toh ek hi — “Happy Birthday” message 💌</p></div>
+                        <div class="lyric-page" id="page19"><p>Party me tu dance karegi full energy se 💃.</p></div>
+                        <div class="lyric-page" id="page20"><p>Aur sabko hansi aayegi… kyunki steps Google pe bhi nahi milenge 😂</p></div>
+                        <div class="lyric-page" id="page21"><p>Happy Birthday!, cartoon don 🤭🎂</p></div>
+                        <div class="lyric-page" id="page22"><p>Khush rehna, mast rehna, warna next roast aur bhi savage hoga 🔥</p></div>
+                        <div class="lyric-page" id="page23"><p>created by Ajju❤️ yt:@with_codecrafter.subscribe</p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="hearts">
+                <div class="heart a1"></div>
+                <div class="heart a2"></div>
+                <div class="heart a3"></div>
+            </div>
+            <div class="sparkles">
+                <div class="sparkle s1"></div>
+                <div class="sparkle s2"></div>
+                <div class="sparkle s3"></div>
+            </div>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="openBtn">Open</button>
+        <button id="resetBtn" style="display: none;">Close</button>
+    </div>
+    <audio id="sound" loop>
+      <source src="TheWayIStillLoveYou.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+  const envelope = $('#envelope');
+  const openBtn = $("#openBtn");
+  const resetBtn = $("#resetBtn");
+
+  let currentPage = 1;
+  const totalPages = 23;
+  let isOpen = false;
+
+  envelope.on('click', function () {
+      if (isOpen) nextLyric();
+  });
+
+  openBtn.on('click', function () {
+      envelope.removeClass("close").addClass("open");
+      isOpen = true;
+      openBtn.hide();
+      resetBtn.show();
+  });
+
+  resetBtn.on('click', function () {
+      envelope.removeClass("open").addClass("close");
+      isOpen = false;
+      setTimeout(function () {
+          currentPage = 1;
+          updateActivePage();
+          resetBtn.hide();
+          openBtn.show();
+      }, 600);
+  });
+
+  function nextLyric() {
+      currentPage = currentPage < totalPages ? currentPage + 1 : 1;
+      updateActivePage();
+  }
+
+  function updateActivePage() {
+      $(".lyric-page").removeClass("active");
+      $("#page" + currentPage).addClass("active");
+  }
+});
+
+const openBtn = document.getElementById("openBtn");
+const resetBtn = document.getElementById("resetBtn");
+const envelope = document.getElementById("envelope");
+const audio = document.getElementById("sound");
+
+let hasPlayed = false;
+
+function playAudioOnce() {
+    if (!hasPlayed) {
+        audio.play().then(() => {
+            hasPlayed = true;
+        }).catch((e) => {
+            console.log("Không thể phát nhạc:", e);
+        });
+    }
+}
+
+openBtn.addEventListener("click", function () {
+    envelope.classList.remove("close");
+    envelope.classList.add("open");
+    openBtn.style.display = "none";
+    resetBtn.style.display = "inline-block";
+    playAudioOnce();
+});
+
+resetBtn.addEventListener("click", function () {
+    envelope.classList.remove("open");
+    envelope.classList.add("close");
+    openBtn.style.display = "inline-block";
+    resetBtn.style.display = "none";
+    playAudioOnce();
+});
+
+    </script>
+</body>
+</html>
